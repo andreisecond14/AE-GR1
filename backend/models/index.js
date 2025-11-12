@@ -1,0 +1,10 @@
+const { Sequelize } = require('sequelize')
+const sequelize = new Sequelize({ dialect: 'sqlite', storage: 'database.sqlite' })
+const User = require('./user')(sequelize)
+const Product = require('./product')(sequelize)
+const CartItem = require('./cartitem')(sequelize)
+User.hasMany(CartItem,{foreignKey:'userId'})
+CartItem.belongsTo(User,{foreignKey:'userId'})
+Product.hasMany(CartItem,{foreignKey:'productId'})
+CartItem.belongsTo(Product,{foreignKey:'productId'})
+module.exports = { sequelize, User, Product, CartItem }
